@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.wafflestudio.snugo"
-        minSdk = 24
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -53,6 +53,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.compose.animation:animation:1.7.0-alpha02")
     implementation("androidx.compose.foundation:foundation:1.7.0-alpha02")
     implementation("androidx.compose.material:material:1.7.0-alpha02")
