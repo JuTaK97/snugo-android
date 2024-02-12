@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime:1.7.0-alpha02")
     implementation("androidx.compose.ui:ui:1.7.0-alpha02")
     implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("com.google.android.gms:play-services-location:21.1.0")
 
     // testing
     testImplementation("junit:junit:4.13.2")
