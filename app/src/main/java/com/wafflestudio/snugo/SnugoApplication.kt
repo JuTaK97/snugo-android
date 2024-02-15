@@ -2,9 +2,7 @@ package com.wafflestudio.snugo
 
 import android.app.Application
 import com.naver.maps.map.NaverMapSdk
-import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
 class SNUGOApplication : Application() {
     override fun onCreate() {
         super.onCreate()
