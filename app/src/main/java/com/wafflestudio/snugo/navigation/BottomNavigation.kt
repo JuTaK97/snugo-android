@@ -1,14 +1,13 @@
 package com.wafflestudio.snugo.navigation
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
@@ -27,11 +26,11 @@ fun BottomNavigation(
         )
     val backStackEntry by navController.currentBackStackEntryAsState()
 
-    androidx.compose.material.BottomNavigation(
+    NavigationBar(
         modifier = modifier.fillMaxWidth(),
     ) {
         items.forEach { item ->
-            BottomNavigationItem(
+            NavigationBarItem(
                 selected = backStackEntry?.destination?.route == item.destination.route,
                 onClick = {
                     navController.navigate(item.destination.route) {
@@ -53,8 +52,6 @@ fun BottomNavigation(
                         text = stringResource(item.title),
                     )
                 },
-                selectedContentColor = MaterialTheme.colorScheme.primary,
-                unselectedContentColor = Color.Gray,
             )
         }
     }

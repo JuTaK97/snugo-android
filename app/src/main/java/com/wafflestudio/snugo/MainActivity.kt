@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                     BottomNavigationItem.items.map { it.destination.route }
                         .contains(backStackEntry?.destination?.route)
                 val animatedOffsetDp by animateIntAsState(
-                    targetValue = if (showBottomNavigation) 0 else 56,
+                    targetValue = if (showBottomNavigation) 0 else 80,
                     label = "bottom navigation offset dp",
                 )
 
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                                     route = NavigationDestination.Home.route,
                                 ) {
                                     HomeScreen(
-                                        modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                        modifier = Modifier.padding(bottom = (80 - animatedOffsetDp).dp),
                                     )
                                 }
 
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                                     route = NavigationDestination.Records.route,
                                 ) {
                                     RecordsScreen(
-                                        modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                        modifier = Modifier.padding(bottom = (80 - animatedOffsetDp).dp),
                                     )
                                 }
 
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                                     route = NavigationDestination.Settings.route,
                                 ) {
                                     SettingsScreen(
-                                        modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                        modifier = Modifier.padding(bottom = (80 - animatedOffsetDp).dp),
                                     )
                                 }
                             }
