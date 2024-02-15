@@ -54,7 +54,7 @@ jobs:
         run: ./gradlew clean
       - name: Setup secrets.xml
         run: |
-          mkdir -p ./app/src/main/res/values/secrets.xml
+          mkdir -p ./app/src/main/res/values
           cat << EOF > ./app/src/main/res/values/secrets.xml
           ${{ secrets.secrets_xml }}
           EOF
