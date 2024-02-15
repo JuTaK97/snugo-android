@@ -37,8 +37,10 @@ import com.wafflestudio.snugo.navigation.BottomNavigation
 import com.wafflestudio.snugo.navigation.BottomNavigationItem
 import com.wafflestudio.snugo.navigation.NavigationDestination
 import com.wafflestudio.snugo.ui.theme.SnugoTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                                     .align(Alignment.BottomCenter)
                                     .offset {
                                         IntOffset(x = 0, y = animatedOffsetDp.dp.toPx().roundToInt())
-                                    }
+                                    },
                         )
                     }
                 }

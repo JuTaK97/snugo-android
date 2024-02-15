@@ -18,11 +18,12 @@ fun CtaButton(
     content: @Composable RowScope.() -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .background(color = MaterialTheme.colorScheme.primary)
-            .clickable { onClick() }
-            .padding(20.dp),
-        horizontalArrangement = Arrangement.Center
+        modifier =
+            modifier
+                .background(color = MaterialTheme.colorScheme.primary)
+                .clickable { onClick() }
+                .padding(20.dp),
+        horizontalArrangement = Arrangement.Center,
     ) {
         content()
     }
