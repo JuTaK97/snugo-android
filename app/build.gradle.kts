@@ -59,7 +59,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.compose.animation:animation:1.7.0-alpha02")
     implementation("androidx.compose.foundation:foundation:1.7.0-alpha02")
-    implementation("androidx.compose.material:material:1.7.0-alpha02")
     implementation("androidx.compose.runtime:runtime:1.7.0-alpha02")
     implementation("androidx.compose.ui:ui:1.7.0-alpha02")
     implementation("androidx.compose.material3:material3:1.2.0")
