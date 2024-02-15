@@ -28,6 +28,10 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="@string/naver_map_client_id" />
+
         <service
             android:name=".location.LocationService"
             android:foregroundServiceType="location"/>
