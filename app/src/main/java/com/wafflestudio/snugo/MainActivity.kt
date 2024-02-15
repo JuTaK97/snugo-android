@@ -3,15 +3,39 @@ package com.wafflestudio.snugo
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.wafflestudio.snugo.features.arrivaldetail.ArrivalDetailScreen
+import com.wafflestudio.snugo.features.home.HomeScreen
+import com.wafflestudio.snugo.features.records.RecordsScreen
+import com.wafflestudio.snugo.features.settings.SettingsScreen
 import com.wafflestudio.snugo.location.getLocationPermissions
+import com.wafflestudio.snugo.navigation.BottomNavigation
+import com.wafflestudio.snugo.navigation.BottomNavigationItem
+import com.wafflestudio.snugo.navigation.NavigationDestination
 import com.wafflestudio.snugo.ui.theme.SnugoTheme
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,33 +44,112 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             SnugoTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
+                val navController = rememberNavController()
+                val backStackEntry by navController.currentBackStackEntryAsState()
+                val showBottomNavigation =
+                    BottomNavigationItem.items.map { it.destination.route }
+                        .contains(backStackEntry?.destination?.route)
+                val animatedOffsetDp by animateIntAsState(
+                    targetValue = if (showBottomNavigation) 0 else 56,
+                    label = "bottom navigation offset dp",
+                )
+
+                CompositionLocalProvider(
+                    LocalNavController provides navController,
                 ) {
-                    Greeting("Android")
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        NavHost(
+                            navController = navController,
+                            startDestination = NavigationDestination.Home.route,
+                            modifier =
+                                Modifier
+                                    .fillMaxSize(),
+                        ) {
+                            bottomNavComposable(
+                                route = NavigationDestination.Home.route,
+                            ) {
+                                HomeScreen(
+                                    modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                )
+                            }
+
+                            slideVerticalComposable(
+                                route = NavigationDestination.ArrivalDetail.route,
+                            ) {
+                                ArrivalDetailScreen()
+                            }
+
+                            bottomNavComposable(
+                                route = NavigationDestination.Records.route,
+                            ) {
+                                RecordsScreen(
+                                    modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                )
+                            }
+
+                            bottomNavComposable(
+                                route = NavigationDestination.Settings.route,
+                            ) {
+                                SettingsScreen(
+                                    modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                )
+                            }
+                        }
+                        BottomNavigation(
+                            navController = navController,
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.BottomCenter)
+                                    .offset {
+                                        IntOffset(x = 0, y = animatedOffsetDp.dp.toPx().roundToInt())
+                                    }
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(
-    name: String,
-    modifier: Modifier = Modifier,
+fun NavGraphBuilder.bottomNavComposable(
+    route: String,
+    content: @Composable (AnimatedContentScope.(NavBackStackEntry) -> Unit),
 ) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier,
+    composable(
+        route = route,
+        enterTransition = { fadeIn() },
+        popExitTransition = { fadeOut() },
+        exitTransition = { fadeOut() },
+        popEnterTransition = { fadeIn() },
+        content = content,
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SnugoTheme {
-        Greeting("Android")
-    }
+fun NavGraphBuilder.slideVerticalComposable(
+    route: String,
+    content: @Composable (AnimatedContentScope.(NavBackStackEntry) -> Unit),
+) {
+    composable(
+        route = route,
+        enterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Up,
+            ) + fadeIn()
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Down,
+            ) + fadeOut()
+        },
+        exitTransition = {
+            fadeOut()
+        },
+        popEnterTransition = {
+            fadeIn()
+        },
+        content = content,
+    )
 }
