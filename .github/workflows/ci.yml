@@ -52,5 +52,11 @@ jobs:
           distribution: 'adopt'
       - name: Clean build
         run: ./gradlew clean
+      - name: Setup secrets.xml
+        run: |
+          mkdir -p ./app/src/main/res/values/secrets.xml
+          cat << EOF > ./app/src/main/res/values/secrets.xml
+          ${{ secrets.secrets_xml }}
+          EOF
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
