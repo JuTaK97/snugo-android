@@ -69,7 +69,6 @@ dependencies {
     implementation("com.naver.maps:map-sdk:3.17.0")
     implementation("io.github.fornewid:naver-map-compose:1.4.1")
 
-
     // testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

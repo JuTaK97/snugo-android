@@ -3,7 +3,7 @@ package com.wafflestudio.snugo
 import android.app.Application
 import com.naver.maps.map.NaverMapSdk
 
-class SNUGOApplication: Application() {
+class SNUGOApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         NaverMapSdk.getInstance(this).client =
