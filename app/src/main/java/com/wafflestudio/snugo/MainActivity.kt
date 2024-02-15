@@ -25,9 +25,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.wafflestudio.snugo.features.arrivaldetail.ArrivalDetailScreen
 import com.wafflestudio.snugo.features.home.HomeScreen
+import com.wafflestudio.snugo.features.onboarding.SignInScreen
 import com.wafflestudio.snugo.features.records.RecordsScreen
 import com.wafflestudio.snugo.features.settings.SettingsScreen
 import com.wafflestudio.snugo.location.getLocationPermissions
@@ -62,11 +64,22 @@ class MainActivity : AppCompatActivity() {
                     ) {
                         NavHost(
                             navController = navController,
-                            startDestination = NavigationDestination.Home.route,
+                            startDestination = NavigationDestination.Onboarding.route,
                             modifier =
                                 Modifier
                                     .fillMaxSize(),
                         ) {
+                            navigation(
+                                startDestination = NavigationDestination.SignIn.route,
+                                route = NavigationDestination.Onboarding.route,
+                            ) {
+                                slideVerticalComposable(
+                                    route = NavigationDestination.SignIn.route,
+                                ) {
+                                    SignInScreen()
+                                }
+                            }
+
                             bottomNavComposable(
                                 route = NavigationDestination.Home.route,
                             ) {

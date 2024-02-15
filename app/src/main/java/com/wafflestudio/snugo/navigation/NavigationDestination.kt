@@ -6,9 +6,13 @@ sealed class NavigationDestination(
     val route: String,
     val arguments: List<NamedNavArgument> = emptyList(),
 ) {
+    object Onboarding : NavigationDestination("onboarding")
+
+    object SignIn: NavigationDestination("signin")
+
     object Home : NavigationDestination("home")
 
-    object ArrivalDetail : NavigationDestination(route = "arrival_detail")
+    object ArrivalDetail : NavigationDestination("arrival_detail")
 
     object Records : NavigationDestination("record")
 
