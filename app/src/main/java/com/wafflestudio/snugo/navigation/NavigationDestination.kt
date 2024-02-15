@@ -8,6 +8,8 @@ sealed class NavigationDestination(
 ) {
     object Onboarding : NavigationDestination("onboarding")
 
+    object Main : NavigationDestination("main")
+
     object SignIn : NavigationDestination("signin")
 
     object Home : NavigationDestination("home")

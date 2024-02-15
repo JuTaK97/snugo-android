@@ -32,6 +32,5 @@ class UserRepositoryImpl
             nickname: String,
             department: String,
         ) {
-            TODO("Not yet implemented")
         }
     }

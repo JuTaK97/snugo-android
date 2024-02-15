@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -82,34 +83,39 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
 
-                            bottomNavComposable(
-                                route = NavigationDestination.Home.route,
+                            navigation(
+                                startDestination = NavigationDestination.Home.route,
+                                route = NavigationDestination.Main.route,
                             ) {
-                                HomeScreen(
-                                    modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
-                                )
-                            }
+                                bottomNavComposable(
+                                    route = NavigationDestination.Home.route,
+                                ) {
+                                    HomeScreen(
+                                        modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                    )
+                                }
 
-                            slideVerticalComposable(
-                                route = NavigationDestination.ArrivalDetail.route,
-                            ) {
-                                ArrivalDetailScreen()
-                            }
+                                slideVerticalComposable(
+                                    route = NavigationDestination.ArrivalDetail.route,
+                                ) {
+                                    ArrivalDetailScreen()
+                                }
 
-                            bottomNavComposable(
-                                route = NavigationDestination.Records.route,
-                            ) {
-                                RecordsScreen(
-                                    modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
-                                )
-                            }
+                                bottomNavComposable(
+                                    route = NavigationDestination.Records.route,
+                                ) {
+                                    RecordsScreen(
+                                        modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                    )
+                                }
 
-                            bottomNavComposable(
-                                route = NavigationDestination.Settings.route,
-                            ) {
-                                SettingsScreen(
-                                    modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
-                                )
+                                bottomNavComposable(
+                                    route = NavigationDestination.Settings.route,
+                                ) {
+                                    SettingsScreen(
+                                        modifier = Modifier.padding(bottom = (56 - animatedOffsetDp).dp),
+                                    )
+                                }
                             }
                         }
                         BottomNavigation(
@@ -119,7 +125,13 @@ class MainActivity : AppCompatActivity() {
                                     .fillMaxWidth()
                                     .align(Alignment.BottomCenter)
                                     .offset {
-                                        IntOffset(x = 0, y = animatedOffsetDp.dp.toPx().roundToInt())
+                                        IntOffset(
+                                            x = 0,
+                                            y =
+                                                animatedOffsetDp.dp
+                                                    .toPx()
+                                                    .roundToInt(),
+                                        )
                                     },
                         )
                     }
@@ -167,4 +179,16 @@ fun NavGraphBuilder.slideVerticalComposable(
         },
         content = content,
     )
+}
+
+fun NavController.navigateAsOrigin(route: String) {
+    navigate(route) {
+        currentBackStackEntry?.destination?.parent?.startDestinationRoute?.let {
+            popUpTo(it) {
+                inclusive = true
+            }
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
 }

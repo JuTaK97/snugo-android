@@ -34,8 +34,6 @@ class UserViewModel
             nickname: String,
             departmentIndex: Int,
         ) {
-            if (nickname.isNotEmpty() && departmentIndex != 0) {
-                userRepository.signIn(nickname, _departments.value[departmentIndex])
-            }
+            userRepository.signIn(nickname, if (departmentIndex == 0) "" else _departments.value[departmentIndex])
         }
     }

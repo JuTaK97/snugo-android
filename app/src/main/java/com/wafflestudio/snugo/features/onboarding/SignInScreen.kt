@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wafflestudio.snugo.LocalNavController
 import com.wafflestudio.snugo.components.CtaButton
+import com.wafflestudio.snugo.navigateAsOrigin
 import com.wafflestudio.snugo.navigation.NavigationDestination
 import kotlinx.coroutines.launch
 
@@ -52,7 +53,7 @@ fun SignInScreen(
 
     val handleSignIn: suspend () -> Unit = {
         userViewModel.signIn(nickname, departmentIndex)
-        navController.navigate(NavigationDestination.Home.route)
+        navController.navigateAsOrigin(NavigationDestination.Main.route)
     }
 
     Column(
