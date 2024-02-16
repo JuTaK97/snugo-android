@@ -1,5 +1,7 @@
 package com.wafflestudio.snugo
 
+import android.app.ActivityManager
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +17,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
@@ -28,21 +34,30 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.naver.maps.geometry.LatLng
 import com.wafflestudio.snugo.features.arrivaldetail.ArrivalDetailScreen
+import com.wafflestudio.snugo.features.home.HomePageMode
 import com.wafflestudio.snugo.features.home.HomeScreen
 import com.wafflestudio.snugo.features.onboarding.SignInScreen
 import com.wafflestudio.snugo.features.records.RecordsScreen
 import com.wafflestudio.snugo.features.settings.SettingsScreen
+import com.wafflestudio.snugo.location.LocationProvider
+import com.wafflestudio.snugo.location.LocationService
 import com.wafflestudio.snugo.location.getLocationPermissions
 import com.wafflestudio.snugo.navigation.BottomNavigation
 import com.wafflestudio.snugo.navigation.BottomNavigationItem
 import com.wafflestudio.snugo.navigation.NavigationDestination
 import com.wafflestudio.snugo.ui.theme.SnugoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var locationProvider: LocationProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getLocationPermissions()
@@ -59,6 +74,12 @@ class MainActivity : AppCompatActivity() {
                     label = "bottom navigation offset dp",
                 )
 
+                val pathFlow = remember { mutableStateOf<Flow<List<LatLng>>?>(null) }
+                val paths = pathFlow.value?.collectAsState(emptyList())
+                var homePageMode by remember {
+                    mutableStateOf(HomePageMode.NORMAL)
+                }
+
                 CompositionLocalProvider(
                     LocalNavController provides navController,
                 ) {
@@ -68,9 +89,7 @@ class MainActivity : AppCompatActivity() {
                         NavHost(
                             navController = navController,
                             startDestination = NavigationDestination.Onboarding.route,
-                            modifier =
-                                Modifier
-                                    .fillMaxSize(),
+                            modifier = Modifier.fillMaxSize(),
                         ) {
                             navigation(
                                 startDestination = NavigationDestination.SignIn.route,
@@ -92,6 +111,12 @@ class MainActivity : AppCompatActivity() {
                                 ) {
                                     HomeScreen(
                                         modifier = Modifier.padding(bottom = (80 - animatedOffsetDp).dp),
+                                        pageMode = homePageMode,
+                                        paths?.value ?: emptyList(),
+                                        startMoving = {
+                                            homePageMode = HomePageMode.MOVING
+                                            pathFlow.value = locationProvider.subscribePath()
+                                        },
                                     )
                                 }
 
@@ -119,7 +144,6 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                         BottomNavigation(
-                            navController = navController,
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
@@ -133,6 +157,7 @@ class MainActivity : AppCompatActivity() {
                                                     .roundToInt(),
                                         )
                                     },
+                            navController = navController,
                         )
                     }
                 }
@@ -191,4 +216,14 @@ fun NavController.navigateAsOrigin(route: String) {
         launchSingleTop = true
         restoreState = true
     }
+}
+
+fun isServiceRunning(context: Context): Boolean {
+    val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+        if (LocationService::class.java.name == service.service.className) {
+            return true
+        }
+    }
+    return false
 }

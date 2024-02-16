@@ -65,10 +65,12 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.1.0")
 
     implementation("androidx.compose.runtime:runtime-livedata:1.6.1")
+    implementation("androidx.lifecycle:lifecycle-service:2.7.0")
 
     // naver map
     implementation("com.naver.maps:map-sdk:3.17.0")
     implementation("io.github.fornewid:naver-map-compose:1.4.1")
+    implementation("io.github.fornewid:naver-map-location:21.0.1")
 
     // testing
     testImplementation("junit:junit:4.13.2")
