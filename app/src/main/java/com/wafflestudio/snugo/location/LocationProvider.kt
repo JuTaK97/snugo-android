@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import com.naver.maps.geometry.LatLng
+import com.wafflestudio.snugo.service.LocationService
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

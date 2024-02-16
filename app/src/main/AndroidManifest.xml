@@ -34,7 +34,7 @@
             android:value="@string/naver_map_client_id" />
 
         <service
-            android:name=".location.LocationService"
+            android:name=".service.LocationService"
             android:foregroundServiceType="location"/>
     </application>
 

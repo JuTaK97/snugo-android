@@ -1,4 +1,4 @@
-package com.wafflestudio.snugo.location
+package com.wafflestudio.snugo.service
 
 import android.content.Intent
 import android.os.Binder
@@ -12,7 +12,6 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.naver.maps.geometry.LatLng
-import com.wafflestudio.snugo.service.createNotification
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

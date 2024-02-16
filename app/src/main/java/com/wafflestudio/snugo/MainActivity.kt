@@ -42,11 +42,11 @@ import com.wafflestudio.snugo.features.onboarding.SignInScreen
 import com.wafflestudio.snugo.features.records.RecordsScreen
 import com.wafflestudio.snugo.features.settings.SettingsScreen
 import com.wafflestudio.snugo.location.LocationProvider
-import com.wafflestudio.snugo.location.LocationService
 import com.wafflestudio.snugo.location.getLocationPermissions
 import com.wafflestudio.snugo.navigation.BottomNavigation
 import com.wafflestudio.snugo.navigation.BottomNavigationItem
 import com.wafflestudio.snugo.navigation.NavigationDestination
+import com.wafflestudio.snugo.service.LocationService
 import com.wafflestudio.snugo.ui.theme.SnugoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow

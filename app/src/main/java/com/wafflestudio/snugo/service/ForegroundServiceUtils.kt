@@ -10,7 +10,6 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.wafflestudio.snugo.MainActivity
 import com.wafflestudio.snugo.R
-import com.wafflestudio.snugo.location.LocationService
 
 object ForegroundServiceConstants {
     const val CHANNEL_ID = "location_service_channel"
