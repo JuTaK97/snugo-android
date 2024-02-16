@@ -14,7 +14,7 @@ class UserRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : UserRepository {
 
-    override val accessToken: Flow<String?> = dataStore.data.map { it[ACCESS_TOKEN] }
+    override val accessToken: Flow<String?> = dataStore.data.map { it[ACCESS_TOKEN] ?: "" }
 
     override val nickname: Flow<String?> = dataStore.data.map { it[NICKNAME] }
 
