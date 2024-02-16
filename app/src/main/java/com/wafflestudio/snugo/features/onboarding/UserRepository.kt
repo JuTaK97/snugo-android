@@ -16,4 +16,6 @@ interface UserRepository {
         nickname: String,
         department: String,
     )
+
+    suspend fun signOut()
 }

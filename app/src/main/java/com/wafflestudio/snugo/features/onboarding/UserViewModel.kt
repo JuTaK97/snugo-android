@@ -48,4 +48,8 @@ class UserViewModel @Inject constructor(
             if (departmentIndex == 0) "" else _departments.value[departmentIndex],
         )
     }
+
+    suspend fun signOut() {
+        userRepository.signOut()
+    }
 }

@@ -52,6 +52,14 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun signOut() {
+        dataStore.edit { preferences ->
+            preferences.remove(ACCESS_TOKEN)
+            preferences.remove(NICKNAME)
+            preferences.remove(DEPARTMENT)
+        }
+    }
+
     companion object {
         val ACCESS_TOKEN = stringPreferencesKey("access_token")
         val NICKNAME = stringPreferencesKey("nickname")
