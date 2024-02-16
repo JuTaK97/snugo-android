@@ -12,24 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-fun Context.showPermissionDialog() {
-    AlertDialog.Builder(this)
-        .setMessage("이 앱을 사용하려면 위치 권한이 필요합니다. 설정에서 권한을 활성화하십시오.")
-        .setPositiveButton("설정으로 이동") { _, _ ->
-            val intent =
-                Intent().apply {
-                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                    data = Uri.fromParts("package", packageName, null)
-                }
-            startActivity(intent)
-        }
-        .setNegativeButton("취소") { dialog, _ ->
-            dialog.dismiss()
-        }
-        .setCancelable(false)
-        .show()
-}
-
 fun ComponentActivity.getLocationPermissions() {
     val requiredPermissions =
         arrayOf(
@@ -69,4 +51,22 @@ fun ComponentActivity.getLocationPermissions() {
             permissionRequest.launch(requiredPermissions)
         }
     }
+}
+
+private fun Context.showPermissionDialog() {
+    AlertDialog.Builder(this)
+        .setMessage("이 앱을 사용하려면 위치 권한이 필요합니다. 설정에서 권한을 활성화하십시오.")
+        .setPositiveButton("설정으로 이동") { _, _ ->
+            val intent =
+                Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data = Uri.fromParts("package", packageName, null)
+                }
+            startActivity(intent)
+        }
+        .setNegativeButton("취소") { dialog, _ ->
+            dialog.dismiss()
+        }
+        .setCancelable(false)
+        .show()
 }
