@@ -74,14 +74,15 @@ class MainActivity : AppCompatActivity() {
         getLocationPermissions()
 
         var loadFinished = false
-        val startDestination = userViewModel.accessToken.filterNotNull().map {
-            loadFinished = true
-            if (it.isNotEmpty()) {
-                NavigationDestination.Main.route
-            } else {
-                NavigationDestination.Onboarding.route
+        val startDestination =
+            userViewModel.accessToken.filterNotNull().map {
+                loadFinished = true
+                if (it.isNotEmpty()) {
+                    NavigationDestination.Main.route
+                } else {
+                    NavigationDestination.Onboarding.route
+                }
             }
-        }
 
         setContent {
             SnugoTheme {
@@ -167,18 +168,18 @@ class MainActivity : AppCompatActivity() {
                         }
                         BottomNavigation(
                             modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.BottomCenter)
-                                .offset {
-                                    IntOffset(
-                                        x = 0,
-                                        y =
-                                        animatedOffsetDp.dp
-                                            .toPx()
-                                            .roundToInt(),
-                                    )
-                                },
+                                Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.BottomCenter)
+                                    .offset {
+                                        IntOffset(
+                                            x = 0,
+                                            y =
+                                                animatedOffsetDp.dp
+                                                    .toPx()
+                                                    .roundToInt(),
+                                        )
+                                    },
                             navController = navController,
                         )
                     }
@@ -186,9 +187,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val rootView = window.decorView
-            .findViewById<ViewGroup>(android.R.id.content)
-            .getChildAt(0) as ComposeView
+        val rootView =
+            window.decorView
+                .findViewById<ViewGroup>(android.R.id.content)
+                .getChildAt(0) as ComposeView
         rootView.viewTreeObserver.addOnPreDrawListener(
             object : OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
@@ -199,7 +201,7 @@ class MainActivity : AppCompatActivity() {
                         false
                     }
                 }
-            }
+            },
         )
     }
 }

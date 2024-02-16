@@ -3,7 +3,6 @@ package com.wafflestudio.snugo.features.onboarding
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-
     val accessToken: Flow<String?>
 
     val nickname: Flow<String?>

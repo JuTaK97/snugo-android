@@ -11,7 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "com.wafflestudio.snugo.preferences"
+    name = "com.wafflestudio.snugo.preferences",
 )
 
 @Module

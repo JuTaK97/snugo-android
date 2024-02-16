@@ -34,32 +34,33 @@ fun SettingsScreen(
 
     Column(
         modifier =
-        modifier
-            .fillMaxSize(),
+            modifier
+                .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "settings screen",
         )
         Text(
-            text = "access token: $accessToken"
+            text = "access token: $accessToken",
         )
         Text(
-            text = "nickname: $nickname"
+            text = "nickname: $nickname",
         )
         Text(
-            text = "department: $userDepartment"
+            text = "department: $userDepartment",
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = "로그아웃",
-            modifier = Modifier.clickable {
-                scope.launch {
-                    userViewModel.signOut()
-                    navController.navigateAsOrigin(NavigationDestination.Onboarding.route)
-                }
-            }
+            modifier =
+                Modifier.clickable {
+                    scope.launch {
+                        userViewModel.signOut()
+                        navController.navigateAsOrigin(NavigationDestination.Onboarding.route)
+                    }
+                },
         )
     }
 }
