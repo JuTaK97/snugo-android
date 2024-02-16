@@ -18,5 +18,7 @@ sealed class NavigationDestination(
 
     object Records : NavigationDestination("record")
 
+    object RecordMap: NavigationDestination("recordmap")
+
     object Settings : NavigationDestination("settings")
 }
