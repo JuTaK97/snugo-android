@@ -73,6 +73,7 @@ fun SignInScreen(
             TextField(
                 value = nickname,
                 onValueChange = { nickname = it },
+                label = { Text(text = "닉네임") },
                 keyboardOptions =
                     KeyboardOptions(
                         keyboardType = KeyboardType.Text,
@@ -90,7 +91,9 @@ fun SignInScreen(
                     value = departments[departmentIndex],
                     onValueChange = {},
                     readOnly = true,
+                    label = { Text(text = "단과대학") },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDepartmentMenuExpanded) },
+                    modifier = Modifier.menuAnchor(),
                 )
                 ExposedDropdownMenu(
                     expanded = isDepartmentMenuExpanded,
