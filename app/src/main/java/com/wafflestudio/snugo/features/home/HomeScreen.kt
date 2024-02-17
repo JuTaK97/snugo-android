@@ -88,27 +88,28 @@ fun HomeScreen(
 
             PolygonOverlay(
                 coords = polygonMap[department]!!,
-                color = department.color().copy(
-                    alpha = 0.4f,
-                )
+                color =
+                    department.color().copy(
+                        alpha = 0.4f,
+                    ),
             )
         }
         Row(modifier = Modifier.weight(0.3f)) {
             Text(
                 text = "기록 시작",
                 modifier =
-                Modifier
-                    .padding(15.dp)
-                    .clickable {
-                        if (pageMode == HomePageMode.NORMAL) {
-                            startMoving()
-                        }
-                    },
+                    Modifier
+                        .padding(15.dp)
+                        .clickable {
+                            if (pageMode == HomePageMode.NORMAL) {
+                                startMoving()
+                            }
+                        },
                 style =
-                TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                ),
+                    TextStyle(
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
             )
             DepartmentPicker(
                 initialIndex = 0,
@@ -127,7 +128,7 @@ fun HomeScreen(
                             durationMs = 1000,
                         )
                     }
-                }
+                },
             )
         }
     }
