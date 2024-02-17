@@ -4,14 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +31,7 @@ import com.naver.maps.map.compose.PathOverlay
 import com.naver.maps.map.compose.PolygonOverlay
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberFusedLocationSource
+import kotlinx.coroutines.launch
 
 enum class HomePageMode {
     NORMAL,
@@ -48,29 +47,11 @@ fun HomeScreen(
     startMoving: () -> Unit,
 ) {
     val cameraPositionState = rememberCameraPositionState()
-    val lazyListState = rememberLazyListState()
-    val selectedItem = remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
+    val scope = rememberCoroutineScope()
 
-    var departmentPolygon by remember {
-        mutableStateOf(listOf<LatLng>())
-    }
-    LaunchedEffect(selectedItem.value) {
-        val latLngs = polygonMap[Department.entries[selectedItem.value]]!!
-        departmentPolygon = latLngs + latLngs.first()
-        cameraPositionState.animate()
-        cameraPositionState.animate(
-            CameraUpdate.fitBounds(
-                LatLngBounds.from(
-                    latLngs + latLngs.first(),
-                ),
-                40,
-            ),
-            animation = CameraAnimation.Fly,
-            durationMs = 1000,
-        )
-    }
-    var polygonCoords by remember {
-        mutableStateOf(listOf<LatLng>())
+    var department by remember { mutableStateOf(Department.entries[0]) }
+    var pathCoords by remember {
+        mutableStateOf(emptyList<LatLng>())
     }
 
     Column(
@@ -80,9 +61,8 @@ fun HomeScreen(
         NaverMap(
             modifier = Modifier.weight(0.7f),
             cameraPositionState = cameraPositionState,
-            onMapClick = { pF, latLng ->
-                val newList = (polygonCoords + latLng)
-                polygonCoords = newList.toMutableList()
+            onMapClick = { _, latLng ->
+                pathCoords = (pathCoords + latLng)
             },
             locationSource = rememberFusedLocationSource(),
             properties = MapProperties(locationTrackingMode = LocationTrackingMode.Follow),
@@ -98,40 +78,57 @@ fun HomeScreen(
                 )
             }
 
-            if (polygonCoords.size >= 2) {
+            if (pathCoords.size >= 2) {
                 PathOverlay(
-                    coords = polygonCoords,
+                    coords = pathCoords,
                     width = 2.dp,
                     color = Color.Red,
                 )
             }
 
             PolygonOverlay(
-                coords = departmentPolygon,
-                color =
-                    Department.entries[selectedItem.value].color().copy(
-                        alpha = 0.4f,
-                    ),
+                coords = polygonMap[department]!!,
+                color = department.color().copy(
+                    alpha = 0.4f,
+                )
             )
         }
         Row(modifier = Modifier.weight(0.3f)) {
             Text(
                 text = "기록 시작",
                 modifier =
-                    Modifier
-                        .padding(15.dp)
-                        .clickable {
-                            if (pageMode == HomePageMode.NORMAL) {
-                                startMoving()
-                            }
-                        },
+                Modifier
+                    .padding(15.dp)
+                    .clickable {
+                        if (pageMode == HomePageMode.NORMAL) {
+                            startMoving()
+                        }
+                    },
                 style =
-                    TextStyle(
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
             )
-            DepartmentPicker(lazyListState)
+            DepartmentPicker(
+                initialIndex = 0,
+                onItemSelected = { index ->
+                    scope.launch {
+                        val latLngs = polygonMap[Department.entries[index]]!!
+                        department = Department.entries[index]
+                        cameraPositionState.animate(
+                            CameraUpdate.fitBounds(
+                                LatLngBounds.from(
+                                    latLngs + latLngs.first(),
+                                ),
+                                40,
+                            ),
+                            animation = CameraAnimation.Fly,
+                            durationMs = 1000,
+                        )
+                    }
+                }
+            )
         }
     }
 }
