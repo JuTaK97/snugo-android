@@ -21,12 +21,13 @@ fun TopBar(
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .background(MaterialTheme.colorScheme.background)
-            .padding(start = 16.dp, end = 16.dp, top = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .background(MaterialTheme.colorScheme.background)
+                .padding(start = 16.dp, end = 16.dp, top = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         navigationIcon()
         title()

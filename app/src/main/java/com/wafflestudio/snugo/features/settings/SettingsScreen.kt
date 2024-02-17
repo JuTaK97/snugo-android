@@ -2,7 +2,6 @@ package com.wafflestudio.snugo.features.settings
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -53,37 +51,40 @@ fun SettingsScreen(
             title = {
                 Text(
                     text = "설정",
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
+                    style =
+                        MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                        ),
                 )
             },
         )
         Spacer(modifier = Modifier.height(20.dp))
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(
-                        width = 0.5.dp,
-                        color = MaterialTheme.colorScheme.outline,
-                        shape = RoundedCornerShape(10.dp)
-                    )
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .border(
+                            width = 0.5.dp,
+                            color = MaterialTheme.colorScheme.outline,
+                            shape = RoundedCornerShape(10.dp),
+                        )
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_person),
                     contentDescription = "profile icon",
-                    modifier = Modifier
-                        .border(
-                            width = 0.5.dp,
-                            color = MaterialTheme.colorScheme.outline,
-                            shape = CircleShape
-                        )
-                        .padding(5.dp)
+                    modifier =
+                        Modifier
+                            .border(
+                                width = 0.5.dp,
+                                color = MaterialTheme.colorScheme.outline,
+                                shape = CircleShape,
+                            )
+                            .padding(5.dp),
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column(
@@ -95,7 +96,7 @@ fun SettingsScreen(
                     )
                     Text(
                         text = userDepartment ?: "",
-                        style = MaterialTheme.typography.titleSmall
+                        style = MaterialTheme.typography.titleSmall,
                     )
                 }
             }
@@ -103,12 +104,12 @@ fun SettingsScreen(
             Text(
                 text = "로그아웃",
                 modifier =
-                Modifier.clickable {
-                    scope.launch {
-                        userViewModel.signOut()
-                        navController.navigateAsOrigin(NavigationDestination.Onboarding.route)
-                    }
-                },
+                    Modifier.clickable {
+                        scope.launch {
+                            userViewModel.signOut()
+                            navController.navigateAsOrigin(NavigationDestination.Onboarding.route)
+                        }
+                    },
             )
         }
     }
