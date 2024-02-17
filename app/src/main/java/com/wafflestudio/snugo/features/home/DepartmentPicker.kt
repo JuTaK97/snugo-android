@@ -300,15 +300,15 @@ fun DepartmentPicker(
                 modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp)
-                    .height(DepartmentPickerConstants.ItemHeightDp.dp * 3),
+                    .height(DepartmentPickerConstants.ITEM_HEIGHT_DP.dp * 3),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState),
-            contentPadding = PaddingValues(vertical = DepartmentPickerConstants.ItemHeightDp.dp),
+            contentPadding = PaddingValues(vertical = DepartmentPickerConstants.ITEM_HEIGHT_DP.dp),
         ) {
             items(Department.entries.map { it.name }) {
                 Box(
                     modifier =
                         Modifier
-                            .height(DepartmentPickerConstants.ItemHeightDp.dp),
+                            .height(DepartmentPickerConstants.ITEM_HEIGHT_DP.dp),
                 ) {
                     Text(
                         text = it,
@@ -327,7 +327,7 @@ fun DepartmentPicker(
                 Modifier
                     .align(Alignment.Center)
                     .fillMaxWidth()
-                    .height(DepartmentPickerConstants.ItemHeightDp.dp)
+                    .height(DepartmentPickerConstants.ITEM_HEIGHT_DP.dp)
                     .background(
                         color = Color.LightGray.copy(alpha = 0.3f),
                         shape = RoundedCornerShape(10.dp),
