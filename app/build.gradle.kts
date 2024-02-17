@@ -88,6 +88,12 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+    // datastore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // splash screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }
 
 kapt {
